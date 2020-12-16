@@ -27,7 +27,7 @@ int strToInt (const char* str) {
 	if (sign == 1 ) {
 		res = -res;
 	}
-	return res;
+return res;
 }
 
 void mutableToUpper (char* str) {
