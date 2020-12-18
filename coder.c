@@ -15,12 +15,10 @@ void mutableCaesarEncode (char* str, const int key) {
 }
 
 char* immutableCaesarEncode (const char* str, const int key) {
-	char* newStr = immutableStrip(str);
-	mutableToLower(newStr);
-	int size = strlen(newStr);
-	for (int i = 0; i < size; i++) {
-		newStr[i] = (newStr[i] + key) % ASCII;
-	}
+	int size = strlen(str);
+	char* newStr = (char*)malloc(sizeof(char) * size);
+	strcpy(newStr, str);
+	mutableCaesarEncode(newStr, key);
 
 	return newStr;
 }
@@ -46,15 +44,10 @@ void mutableXorEncode (char* str, const char* key) {
 }
 
 char* immutableXorEncode (const char* str, const char* key) {
-	char* newStr = immutableStrip(str);
-	mutableToLower(newStr);
-	int size = strlen(newStr);
-	int keySize = strlen(key);
-	int j = 0;
-	for (int i = 0; i < size; i++) {
-		newStr[i] = (char)(newStr[i] ^ key[j]);
-		j = (j + 1) % keySize;
-	}
+	int size = strlen(str);
+	char* newStr = (char*)malloc(sizeof(char) * size);
+	strcpy(newStr, str);
+	mutableXorEncode(newStr, key);
 
 	return newStr;
 }
