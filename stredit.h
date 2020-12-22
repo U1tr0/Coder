@@ -1,7 +1,7 @@
-#include <stdbool.h>
-
 #ifndef STREDIT
 #define STREDIT
+
+#include <stdbool.h>
 
 int strToInt(const char* str);
 

@@ -5,7 +5,6 @@ LDFLAGS = -L. -lcoder -lstredit
 .PNONY: all clean
 
 all: decoder encoder
-	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
 
 decoder: libcoder.so libstredit.so decoder.o
 	$(CC) decoder.o $(LDFLAGS) -o decoder

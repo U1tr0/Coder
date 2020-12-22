@@ -52,34 +52,18 @@ void mutableToLower (char* str) {
 
 char* immutableToUpper (const char* str) {
 	int size = strlen(str);
-	char* newStr = (char*) malloc (sizeof(char) * (size + 1));
-	int i = 0;
-	while (str[i] != '\0') {
-		if ((str[i] >= 'a') && (str[i] <= 'z')) {
-			newStr[i] = str[i] + ('A' - 'a');
-		}
-		else {
-			newStr[i] = str[i];
-		}
-		i++;
-	}
+	char* newStr = (char*)malloc(sizeof(char) * size);
+	strcpy(newStr, str);
+	mutableToUpper(newStr);
 
 	return newStr;
 }
 
 char* immutableToLower (const char* str) {
 	int size = strlen(str);
-	char* newStr = (char*) malloc (sizeof(char) * size);
-	int i = 0;
-	while (str[i] != '\0') {
-		if ((str[i] >= 'a') && (str[i] <= 'z')) {
-			newStr[i] = str[i] - ('A' - 'a');
-		}
-		else {
-			*(newStr + i) = str[i];
-		}
-		i++;
-	}
+	char* newStr = (char*)malloc(sizeof(char) * size);
+	strcpy(newStr, str);
+	mutableToLower(newStr);
 
 	return newStr;
 }
@@ -88,16 +72,24 @@ void mutableStrip (char* str) {
 	int size = strlen(str);
 	int startSpaces = 0;
 	int i = 0;
-	while (str[i] == ' ') {
-		startSpaces++;
-		i++;
+	
+	for (int i = 0; i < size; ++i) {
+		if (str[i] == ' ') {
+			++startSpaces;
+		}
+		else {
+			break;
+		}
 	}
 
 	int endSpaces = 0;
-	i  = size - 1;
-	while (str[i] == ' ') {
-		endSpaces++;	
-		i--;
+	for (int i = size - 1; i >= 0; --i) {
+		if (str[i] == ' ') {
+			++endSpaces;
+		}
+		else {
+			break;
+		}
 	}
 
 	int newSize = size - startSpaces - endSpaces;
@@ -109,26 +101,9 @@ void mutableStrip (char* str) {
 
 char* immutableStrip (const char* str) {
 	int size = strlen(str);
-	int startSpaces = 0;
-	int i = 0;
-	while (str[i] == ' ') {
-		startSpaces++;
-		i++;
-	}
-
-	int endSpaces = 0;
-	i = size - 1;
-	while (str[i] == ' ') {
-		endSpaces++;
-		i--;
-	}
-
-	int newSize = size - startSpaces - endSpaces;
-	char* newStr = (char*) malloc (sizeof(char) * newSize);
-	for (int j = 0; j < newSize; j++) {
-		newStr[j] = str[startSpaces + j];
-	}
-	newStr[newSize] = '\0';
+	char* newStr = (char*)malloc(sizeof(char) * size);
+	strcpy(newStr, str);
+	mutableStrip(newStr);
 
 	return newStr;
 }
@@ -147,15 +122,10 @@ void mutableRemoveSpaces(char* str) {
 
 char* immutableRemoveSpaces(const char* str) {
 	int size = strlen(str);
-	char* newStr = (char*) malloc (sizeof(char) * size);
-	int j = 0;
-	for (int i = 0; i < size; i++) {
-		if (str[i] != ' ') {
-			newStr[j] = str[i];
-			j++;
-		}
-	}
-	newStr[j] = '\0';
+	char* newStr = (char*)malloc(sizeof(char) * size);
+	strcpy(newStr, str);
+	mutableRemoveSpaces(newStr);
+
 	return newStr;
 }
 
@@ -177,19 +147,10 @@ void mutableFilter (char* str) {
 
 char* immutableFilter (const char* str) {
 	int size = strlen(str);
-	char* newStr = (char*) malloc (sizeof(char) * size);
-	int j = 0;
-	for (int i = 0; i < size; i++) {
-		if ((str[i] >= 'a' && str[i] <= 'z')
-			|| (str[i] >= 'A' && str[i] <= 'Z')
-			|| (str[i] >= '0' && str[i] <= '9')
-			|| (str[i] == ' '))
-		{
-			newStr[j] = str[i];
-			j++;
-		}
-	}
-	newStr[j] = '\0';
+	char* newStr = (char*)malloc(sizeof(char) * size);
+	strcpy(newStr, str);
+	mutableFilter(newStr);
+
 	return newStr;
 }
 
@@ -199,16 +160,9 @@ bool isNumber (const char* str) {
 	int f1 = 0;
 	for (int i = 0; i < size; i++) {
 		if (!((str[i] >= '0' && str[i] <= '9')
-			|| (str[i] == '-')
-			|| (str[i] == '.')))
+			|| (str[i] == '-')))
 		{
 			return false;
-		}
-		else if (str[i] == '.') {
-			if (f1 == 1) {
-				return false;
-			}
-			f1 = 1;
 		}
 		else if (str[i] == '-' && i != 0) {
 			return false;
